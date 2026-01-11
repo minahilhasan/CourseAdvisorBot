@@ -5,37 +5,31 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def scrapwebpage():
-    if "api" not in st.session_state:
-        st.session_state.api = Firecrawl(api_key=os.getenv("FIRECRAWL_API_KEY"))
-    firecrawl=st.session_state.api
+
+@st.cache_data
+def scrape_universities():
+    firecrawl = Firecrawl(api_key=os.getenv("FIRECRAWL_API_KEY"))
+
     schema = {
         "type": "object",
         "properties": {
-            "university_name": {
-                "type": "string"
-            },
+            "university_name": {"type": "string"},
             "courses": {
                 "type": "array",
                 "items": {
                     "type": "object",
                     "properties": {
-                        "course_name": {
-                            "type": "string"
-                        },
-                        "general_details": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        }
+                        "course_name": {"type": "string"},
+                        "general_details": {"type": "string"},
+                    },
+                },
+            },
+        },
     }
-
 
     prompt = """
     Extract the university name and all academic programs,
-    with course name, and general details.
+    with course name and general details. Do not repeat a course name from one university.
     """
 
     urls = [
@@ -49,7 +43,6 @@ def scrapwebpage():
         "https://pu.edu.pk",
         "https://giki.edu.pk",
         "https://iba.edu.pk",
-
     ]
 
     response = firecrawl.extract(
@@ -57,7 +50,12 @@ def scrapwebpage():
         prompt=prompt,
         schema=schema,
         enable_web_search=True,
-)
+    )
 
-    st.write(response.data)
     return response.data
+
+
+def scrapwebpage():
+    data = scrape_universities()
+    return data
+
