@@ -36,10 +36,3 @@ def scrap_webpage(url):
     return response.data
 
 
-
-
-
-def scrapwebpage():
-    data = scrape_universities()
-    return data
-
