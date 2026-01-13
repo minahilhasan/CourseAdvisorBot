@@ -31,8 +31,30 @@ def scrap_webpage(url):
         urls=[url],
         prompt=prompt,
         schema=schema,
-        enable_web_search=False,  
+        enable_web_search=False,
     )
-    return response.data
+    data = response.data
+
+    if isinstance(data, dict):
+        data = [data]
+
+    normalized_data = []
+
+    for uni in data:
+        if not isinstance(uni, dict):
+            continue
+
+        programs = uni.get("programs", [])
+
+        if isinstance(programs, dict):
+            programs = list(programs.values())
+        elif not isinstance(programs, list):
+            programs = []
+
+        uni["programs"] = programs
+        normalized_data.append(uni)
+
+    st.write(normalized_data)
+    return normalized_data
 
 
