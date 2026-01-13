@@ -1,5 +1,5 @@
+
 import streamlit as st
-from dataretrieval import extract_courses_cached
 from scrapping import scrap_webpage 
 
 def main():
@@ -27,4 +27,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
