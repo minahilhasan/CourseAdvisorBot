@@ -2,3 +2,9 @@ streamlit
 groq
 firecrawl
 python-dotenv
+chromadb
+pydantic
+pandas
+numpy
+tqdm
+scikit-learn
