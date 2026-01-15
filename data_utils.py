@@ -25,11 +25,9 @@ def prepare_documents(scraped_data):
 
         documents.append(
             f"""
-University: {university or "Unknown"}
-Faculty: {faculty or "Unknown"}
-Programs Offered:
-{programs_text}
-""".strip()
+            University: {university or "Unknown"}
+            Faculty: {faculty or "Unknown"}
+            Programs Offered:{programs_text}""".strip()
         )
 
         # ---- Program-level documents ----
